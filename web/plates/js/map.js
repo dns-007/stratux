@@ -22,6 +22,22 @@ function MapCtrl($rootScope, $scope, $state, $http, $interval) {
 			imageSize: [8192, 8192]
 		})
 	});
+	
+	let offlineofm = new ol.layer.Tile({
+           title: '[offline] OFM',
+           type: 'base',
+           minZoom: '4',
+           maxZoom: '11',
+            source: new ol.source.XYZ({
+                   minZoom: '4',
+                   maxZoom: '11',
+                    projection: 'EPSG:3857',
+                   url: 'img/256/latest/{z}/{x}/{y}.png'
+           })
+
+   });
+
+
 
 	let osm = new ol.layer.Tile({
 		title: '[online] OSM',
@@ -50,6 +66,7 @@ function MapCtrl($rootScope, $scope, $state, $http, $interval) {
 	$scope.map = new ol.Map({
 		target: 'map_display',
 		layers: [
+			offlineofm,
 			offlineMap,
 			osm,
 			openaip,
