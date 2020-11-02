@@ -14,6 +14,7 @@ all:
 	cp img/screen*.png /var/www/img
 	cp img/world.png /var/www/img
 	cp img/world_large.png /var/www/img
+	cp -r img/256 /var/www/img
 	mkdir -p /var/www/maui
 	mkdir -p /var/www/maui/js
 	cp maui/js/angular-ui-router.min.js /var/www/maui/js
