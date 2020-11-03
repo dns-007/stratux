@@ -66,6 +66,8 @@ function MapCtrl($rootScope, $scope, $state, $http, $interval) {
 	
 	$scope.aircraft = [];
 
+	var situation = {};
+
 	function connect($scope) {
 		if (($scope === undefined) || ($scope === null))
 			return;  // we are getting called once after clicking away from the status page
@@ -114,9 +116,10 @@ function MapCtrl($rootScope, $scope, $state, $http, $interval) {
 		
 		var GPSAlt = Math.round(situation.GPSAltitudeMSL);
       var baroAlt = Math.round(situation.BaroPressureAltitude);
-      $scope.qfe = Number(1013) - baroAlt / 27;
-      $scope.qnh = qfe + GPSAlt / 27;
-	  
+     var qfe  = Number(1013) - baroAlt / 27;
+     var qnh  = qfe + GPSAlt / 27;
+	  $scope.qfe = Math.round(qfe.toFixed(0));
+	  $scope.qnh = Math.round(qnh.toFixed(0));
 		
         if ($scope.gps_lat == 0 && $scope.gps_lon == 0) {
             $scope.gps_lat = "--";
