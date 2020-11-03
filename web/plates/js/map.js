@@ -97,9 +97,39 @@ function MapCtrl($rootScope, $scope, $state, $http, $interval) {
 		};
 
 		socket.onmessage = function(msg) {
+			loadSituation(msg.data);
 			$scope.onMessage(msg);
 		};
 	}
+	
+	function loadSituation(data) { // mySituation
+        situation = angular.fromJson(data);
+        // consider using angular.extend()
+        $scope.raw_data = angular.toJson(data, true); // makes it pretty
+
+
+        $scope.gps_alt = situation.GPSAltitudeMSL.toFixed(1);
+        $scope.gps_height_above_ellipsoid = situation.GPSHeightAboveEllipsoid.toFixed(1);
+		$scope.press_alt = Math.round(situation.BaroPressureAltitude.toFixed(0));
+		
+		var GPSAlt = Math.round(situation.GPSAltitudeMSL);
+      var baroAlt = Math.round(situation.BaroPressureAltitude);
+      $scope.qfe = Number(1013) - baroAlt / 27;
+      $scope.qnh = qfe + GPSAlt / 27;
+	  
+		
+        if ($scope.gps_lat == 0 && $scope.gps_lon == 0) {
+            $scope.gps_lat = "--";
+            $scope.gps_lon = "--";
+            $scope.gps_alt = "--";
+            $scope.gps_height_above_ellipsoid = "--";
+            $scope.gps_track = "--";
+            $scope.gps_speed = "--";
+            $scope.gps_vert_speed = "--";
+        }
+
+    }
+	
 
 	let colorCache = {};
 	function getColorForAircraft(aircraft) {
